@@ -29,16 +29,20 @@ public class MineSweeper implements Runnable{       //Re.1
         gameThread.start();
     }
 
-    public void run(){
-        while (true){
-            gamePanel.repaint();
-        }
+    public void run() {
+        int FPSlimit = 300;
+        long lastCheck = System.currentTimeMillis(), lastFrame = System.nanoTime(); //Re.2
+        double frame = 1000000000.0 / FPSlimit, now;
     }
+
+
 }
 
 
 /* References
     Re.1 https://docs.oracle.com/javase/7/docs/api/java/lang/Runnable.html
          https://jenkov.com/tutorials/java-concurrency/creating-and-starting-threads.html
+
+    Re.2 //https://dewitters.com/dewitters-gameloop/
 
  */

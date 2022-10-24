@@ -18,7 +18,7 @@ public class gameContent extends JPanel {
         setMinimumSize(size);
         setPreferredSize(size);
         setMaximumSize(size);
-        setBackground(Color.WHITE);
+        setBackground(Color.LIGHT_GRAY);
         setBorder(new EmptyBorder(20, 20, 20, 20));
         Color borderColor = new Color(89, 89, 89);
         setBorder(BorderFactory.createLineBorder(borderColor, 5));

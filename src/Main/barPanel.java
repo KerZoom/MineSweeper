@@ -15,6 +15,6 @@ public class barPanel extends JPanel {
         setMinimumSize(size);
         setPreferredSize(size);
         setMaximumSize(size);
-        setBackground(Color.DARK_GRAY);
+        setBackground(Color.GRAY);
     }
 }
