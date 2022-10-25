@@ -2,26 +2,25 @@ package Main;
 
 // References are at the bottom of the file and are indexed by code E.g. Re.1
 
-import java.awt.*;
-
 public class MineSweeper implements Runnable{       //Re.1
 
     private Window window;
-    private gamePanel gamePanel;
+    private gameContainer gameContainer;
     private barPanel barPanel;
-    private gameContent gameContent;
+    private gamePanel gamePanel;
     private Thread gameThread; //Re.1
     private Thread clockThread;
     private int width = 900, height = 480;
 
     //No argument constructor
     public MineSweeper() {
-        gamePanel = new gamePanel(width+20, height+15);       // Size of window needs to be modifiable to allow multiple difficulty modes
-        gameContent = new gameContent(width, height);
-        gamePanel.add(gameContent);
+        gameContainer = new gameContainer(width+20, height+15);       // Size of window needs to be modifiable to allow multiple difficulty modes
+        gamePanel = new gamePanel(width, height);
+        gameContainer.add(gamePanel);
         barPanel = new barPanel(width+20, 60);
-        window = new Window( barPanel, gamePanel);
+        window = new Window( barPanel, gameContainer);
         startLoop();
+        gamePanel.fillBoard();
     }
 
     private void startLoop(){
@@ -30,12 +29,20 @@ public class MineSweeper implements Runnable{       //Re.1
     }
 
     public void run() {
-        int FPSlimit = 300;
-        long lastCheck = System.currentTimeMillis(), lastFrame = System.nanoTime(); //Re.2
+        int FPSlimit = 100;
+        long lastCheck = System.currentTimeMillis(), lastFrame = System.nanoTime(),
+                timePerFrame = 1000000000; //Re.2
         double frame = 1000000000.0 / FPSlimit, now;
+
+        while (true) {
+            now = System.nanoTime();
+            if (now - lastFrame >= timePerFrame) {  //Finished FPS control, actually works now
+                                                    //Repaints the JFrame every frame
+                lastFrame = System.nanoTime();      //Real time isn't actually necessary but I will
+                                                    //Need this for the timer later on
+            }
+        }
     }
-
-
 }
 
 
