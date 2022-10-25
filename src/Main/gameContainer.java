@@ -2,8 +2,10 @@ package Main;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 public class gameContainer extends JPanel {
+
     public gameContainer(int width, int height){
 
         Dimension size = new Dimension(width,height);

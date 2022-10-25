@@ -11,14 +11,14 @@ import java.io.InputStream;
 public class gamePanel extends JPanel {
 
     int width, height;
-    private BufferedImage img, subImage;
+    private BufferedImage img;
     private BufferedImage[] sprites;
     private BufferedImage[][] board;
     public gamePanel(int width, int height) {
         this.width = width;
         this.height = height;
 
-        sprites = new BufferedImage[16];
+        sprites = new BufferedImage[8];
         board = new BufferedImage[width/20][height/20];
 
         mouseInput input = new mouseInput(this);
@@ -32,6 +32,9 @@ public class gamePanel extends JPanel {
         setBackground(Color.LIGHT_GRAY);
         setBorder(new EmptyBorder(20, 20, 20, 20));
 
+        boardCreator boardCreation = new boardCreator(width/20, height/20,1);
+
+   //     fillBoard(boardCreation.getboardContents());
         importTileSprites();
     }
 
@@ -46,15 +49,14 @@ public class gamePanel extends JPanel {
             sprites[i] = img.getSubimage(i * 16, 0, 16, 16);
         }
     }
-    public void fillBoard(){
+    public void fillBoard(BufferedImage[][] contents){
         for (int i = 0; i < board.length; i++) {
             for (int e = 0; e < board[0].length; e++) {
-                board[i][e] = sprites[0];
+                board[i][e] = contents[i][e];
             }
         }
         repaint();
     }
-
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         for (int i = 0; i <= getWidth()/20-1; i++) {
@@ -66,7 +68,7 @@ public class gamePanel extends JPanel {
     public void revealSprite(int x, int y){
         int roundX = (int)Math.floor(x/2*0.1);
         int roundY = (int)Math.floor(y/2*0.1);
-        if (roundX >=0 && roundY >= 0)
+        if (roundX >=0 && roundY >= 0 && roundX < getWidth()/20 && roundY < getHeight()/20)
             board[roundX][roundY] = sprites[1];
 
         repaint();
