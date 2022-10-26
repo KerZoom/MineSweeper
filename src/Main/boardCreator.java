@@ -9,13 +9,13 @@ import java.util.Arrays;
 
 public class boardCreator {
 
-    private int width, height;
+    private final int width;
+    private final int height;
     private int difficulty = 0;
-    private BufferedImage[][] boardContents;
+    private final BufferedImage[][] boardContents;
     private BufferedImage img;
-    private BufferedImage[] tileSprites;
-    private int[][] numericalBoardPositions;
-    private int totalMineCount = 0;
+    private final BufferedImage[] tileSprites;
+    private final int[][] numericalBoardPositions;
 
     public boardCreator(int width, int height, int difficulty) {
 
@@ -79,7 +79,6 @@ public class boardCreator {
                 randomNum = (int) (Math.random() * 100);
                 if (randomNum < difficulty) {
                     numericalBoardPositions[i][j] = 13;
-                    totalMineCount++;
                 }
             }
         }
@@ -122,9 +121,6 @@ public class boardCreator {
     }
     public BufferedImage[][] getboardContents(){
         return this.boardContents;
-    }
-    public void flagBomb(int x, int y){
-        numericalBoardPositions[x][y] = 15;
     }
     public int returnNumerical(int x, int y){
         return numericalBoardPositions[x][y];

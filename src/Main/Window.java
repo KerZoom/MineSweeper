@@ -5,7 +5,7 @@ package Main;
 import javax.swing.*;
 
 public class Window {
-    private JFrame jframe;
+    private final JFrame jframe;
 
     public Window(barPanel barPanel, gameContainer gameContainer){
         jframe = new JFrame();

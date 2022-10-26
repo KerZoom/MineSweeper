@@ -12,17 +12,21 @@ public class gamePanel extends JPanel {
 
     int width, height;
     private BufferedImage img;
-    private BufferedImage[] sprites;
-    private BufferedImage[][] board;
+    private int[][] numericalBoard;
+    private final BufferedImage[] sprites;
+    private final BufferedImage[][] board;
+    private int roundX, roundY, tilesClicked = 0, totalTiles;
+    private boolean mouseActive = true;
 
-    private boardCreator boardCreation;
+    private final boardCreator boardCreation;
 
     public gamePanel(int width, int height) {
         this.width = width;
         this.height = height;
-
+        this.totalTiles = width * height;
         sprites = new BufferedImage[16];
         board = new BufferedImage[width / 20][height / 20];
+        numericalBoard = new int[width / 20][ width / 20];
 
         mouseInput input = new mouseInput(this);
         addMouseListener(input);
@@ -37,7 +41,7 @@ public class gamePanel extends JPanel {
         setBorder(new EmptyBorder(20, 20, 20, 20));
 
         boardCreation = new boardCreator(width / 20, height / 20, 1);
-        fillBoard(boardCreation.getboardContents());
+        newNumericalBoard();
 
     }
 
@@ -53,10 +57,11 @@ public class gamePanel extends JPanel {
         }
     }
 
-    public void fillBoard(BufferedImage[][] contents) {
-        for (int i = 0; i < board.length; i++) {
-            for (int e = 0; e < board[0].length; e++) {
-                board[i][e] = contents[i][e];
+    public void newNumericalBoard() {
+        for (int i = 0; i < numericalBoard.length; i++) {
+            for (int e = 0; e < numericalBoard[0].length;e++){
+                numericalBoard[i][e] = 9;
+                board[i][e] = sprites[numericalBoard[i][e]];
             }
         }
         repaint();
@@ -70,31 +75,33 @@ public class gamePanel extends JPanel {
             }
         }
     }
-
     public void revealSprite(int x, int y) {
         int roundX = (int) Math.floor(x/2 * 0.1);
         int roundY = (int) Math.floor(y/2 * 0.1);
-        if (roundX >= 0 && roundY >= 0 && roundX < getWidth() / 20 && roundY < getHeight() / 20
-        && board[roundX][roundY] != sprites[10])
+        if (roundX >= 0 && roundY >= 0 && roundX < getWidth() / 20 && roundY < getHeight() / 20 && board[roundX][roundY] != sprites[10]) {
             board[roundX][roundY] = boardCreation.getSpriteAtPosXY(roundX, roundY);
-
+            tilesClicked++;
+        }
         repaint();
     }
     public void revealFullBoard() {
         for (int i = 0; i <= getWidth() / 20 - 1; i++) {
             for (int e = 0; e <= getHeight() / 20 - 1; e++) {
                 board[i][e] = boardCreation.getSpriteAtPosXY(i, e);
+                mouseActive = false;
             }
         }
         repaint();
     }
     public void loseCondition(int x, int y){
-        int roundX = (int) Math.floor(x / 2 * 0.1);
-        int roundY = (int) Math.floor(y / 2 * 0.1);
+        this.roundX = (int) Math.floor(x / 2 * 0.1);
+        this.roundY = (int) Math.floor(y / 2 * 0.1);
         if (roundX >= 0 && roundY >= 0 && roundX < getWidth() / 20 && roundY < getHeight() / 20) {
-            if (boardCreation.returnNumerical(roundX, roundY) == 13) {
-                revealFullBoard();
-                board[roundX][roundY] = sprites[14];
+            if (numericalBoard[roundX][roundY] == 9) {
+                if (boardCreation.returnNumerical(roundX, roundY) == 13) {
+                    revealFullBoard();
+                    board[roundX][roundY] = sprites[14];
+                }
             }
         }
     }
@@ -102,18 +109,44 @@ public class gamePanel extends JPanel {
         int roundX = (int) Math.floor(x / 2 * 0.1);
         int roundY = (int) Math.floor(y / 2 * 0.1);
         if (roundX >= 0 && roundY >= 0 && roundX < getWidth() / 20 && roundY < getHeight() / 20) {
-            System.out.print("Right click");
-            if (boardCreation.returnNumerical(roundX, roundY) == 13) {
-                boardCreation.flagBomb(roundX,roundY);
+            switch (numericalBoard[roundX][roundY]) {
+                case 9:
+                    board[roundX][roundY] = sprites[10];
+                    numericalBoard[roundX][roundY] = 10;
+                    break;
+                case 10:
+                    board[roundX][roundY] = sprites[9];
+                    numericalBoard[roundX][roundY] = 9;
+                    break;
             }
-
-            if (board[roundX][roundY] == sprites[9]){
-                board[roundX][roundY] = sprites[10];
-                System.out.print("Place flag");
-            }
-
         }
         repaint();
+    }
+    public boolean isFlagged(int x, int y){
+        int roundX = (int) Math.floor(x / 2 * 0.1);
+        int roundY = (int) Math.floor(y / 2 * 0.1);
+        return numericalBoard[roundX][roundY] == 10;
+    }
+    public boolean isMouseActive(){
+        return mouseActive;
+    }
+    public void winCondition(){
+        int flags = 0, correctFlags = 0;
+        boolean allBombsFound = false;
+        for (int i = 0; i <= getWidth() / 20 - 1; i++) {
+            for (int e = 0; e <= getHeight() / 20 - 1; e++) {
+                if (numericalBoard[i][e] == 10){
+                    flags++;
+                    if(numericalBoard[i][e] == 10 && boardCreation.returnNumerical(i,e) == 13) {
+                        correctFlags++;
+                    }
+                }
+            }
+        }
+        if (correctFlags == flags){
+            allBombsFound = true;
+        }
+
     }
 }
 

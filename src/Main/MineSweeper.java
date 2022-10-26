@@ -4,13 +4,14 @@ package Main;
 
 public class MineSweeper implements Runnable{       //Re.1
 
-    private Window window;
-    private gameContainer gameContainer;
-    private barPanel barPanel;
-    private gamePanel gamePanel;
+    private final Window window;
+    private final gameContainer gameContainer;
+    private final barPanel barPanel;
+    private final gamePanel gamePanel;
     private Thread gameThread; //Re.1
     private Thread clockThread;
-    private int width = 400, height = 400;
+    private final int width = 400;
+    private final int height = 400;
 
     //No argument constructor
     public MineSweeper() {
