@@ -83,6 +83,17 @@ public class gamePanel extends JPanel {
             tilesClicked++;
         }
         repaint();
+        if (boardCreation.returnNumerical(roundX,roundY) == 0) {
+            numericalBoard[roundX][roundY] = 15;
+            adjacentEmptyCellRemover(roundX, roundY);
+        }
+    }
+    public void revealSpriteTemporary(int x, int y){
+            board[x][y] = boardCreation.getSpriteAtPosXY(x, y);
+            tilesClicked++;
+            adjacentEmptyCellRemover(x, y);
+            repaint();
+
     }
     public void revealFullBoard() {
         for (int i = 0; i <= getWidth() / 20 - 1; i++) {
@@ -92,18 +103,6 @@ public class gamePanel extends JPanel {
             }
         }
         repaint();
-    }
-    public void loseCondition(int x, int y){
-        this.roundX = (int) Math.floor(x / 2 * 0.1);
-        this.roundY = (int) Math.floor(y / 2 * 0.1);
-        if (roundX >= 0 && roundY >= 0 && roundX < getWidth() / 20 && roundY < getHeight() / 20) {
-            if (numericalBoard[roundX][roundY] == 9) {
-                if (boardCreation.returnNumerical(roundX, roundY) == 13) {
-                    revealFullBoard();
-                    board[roundX][roundY] = sprites[14];
-                }
-            }
-        }
     }
     public void flagTile(int x, int y){
         int roundX = (int) Math.floor(x / 2 * 0.1);
@@ -130,8 +129,40 @@ public class gamePanel extends JPanel {
     public boolean isMouseActive(){
         return mouseActive;
     }
+
+    public void adjacentEmptyCellRemover(int i, int j) {
+
+                    if (i > 0 && boardCreation.returnNumerical(i - 1,j) == 0 && numericalBoard[i-1][j] != 15) {
+                        revealSpriteTemporary(i-1,j);
+                        numericalBoard[i-1][j] = 15;
+                    }
+                    if (j > 0 && boardCreation.returnNumerical(i ,j-1) == 0 && numericalBoard[i][j-1] != 15) {
+                        revealSpriteTemporary(i,j-1);
+                        numericalBoard[i][j-1] = 15;
+                    }
+                    if (j < height/20 - 1 && boardCreation.returnNumerical(i,j+1) == 0 && numericalBoard[i][j+1] != 15) {
+                        revealSpriteTemporary(i,j+1);
+                        numericalBoard[i][j+1] = 15;
+                    }
+                    if (i < width/20 - 1 && boardCreation.returnNumerical(i + 1,j) == 0 && numericalBoard[i+1][j] != 15) {
+                        revealSpriteTemporary(i+1,j);
+                        numericalBoard[i+1][j] = 15;
+                    }
+        }
+    public void loseCondition(int x, int y){
+        this.roundX = (int) Math.floor(x / 2 * 0.1);
+        this.roundY = (int) Math.floor(y / 2 * 0.1);
+        if (roundX >= 0 && roundY >= 0 && roundX < getWidth() / 20 && roundY < getHeight() / 20) {
+            if (numericalBoard[roundX][roundY] == 9) {
+                if (boardCreation.returnNumerical(roundX, roundY) == 13) {
+                    revealFullBoard();
+                    board[roundX][roundY] = sprites[14];
+                }
+            }
+        }
+    }
     public void winCondition(){
-        int flags = 0, correctFlags = 0;
+  /*      int flags = 0, correctFlags = 0;
         boolean allBombsFound = false;
         for (int i = 0; i <= getWidth() / 20 - 1; i++) {
             for (int e = 0; e <= getHeight() / 20 - 1; e++) {
@@ -145,6 +176,10 @@ public class gamePanel extends JPanel {
         }
         if (correctFlags == flags){
             allBombsFound = true;
+        }*/
+        if (tilesClicked + boardCreation.returnTotalMineCount() == ((getHeight() / 20) + (getHeight() / 20))){
+            mouseActive = false;
+            JOptionPane.showMessageDialog(null,"You win!","Winner", JOptionPane.PLAIN_MESSAGE);
         }
 
     }

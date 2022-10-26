@@ -9,9 +9,7 @@ import java.util.Arrays;
 
 public class boardCreator {
 
-    private final int width;
-    private final int height;
-    private int difficulty = 0;
+    private int width, height, difficulty = 0, totalMineCount = 0;
     private final BufferedImage[][] boardContents;
     private BufferedImage img;
     private final BufferedImage[] tileSprites;
@@ -79,6 +77,7 @@ public class boardCreator {
                 randomNum = (int) (Math.random() * 100);
                 if (randomNum < difficulty) {
                     numericalBoardPositions[i][j] = 13;
+                    totalMineCount++;
                 }
             }
         }
@@ -124,5 +123,8 @@ public class boardCreator {
     }
     public int returnNumerical(int x, int y){
         return numericalBoardPositions[x][y];
+    }
+    public int returnTotalMineCount(){
+        return totalMineCount;
     }
 }
