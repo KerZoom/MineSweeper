@@ -14,12 +14,15 @@ public class gamePanel extends JPanel {
     private BufferedImage img;
     private BufferedImage[] sprites;
     private BufferedImage[][] board;
+
+    private boardCreator boardCreation;
+
     public gamePanel(int width, int height) {
         this.width = width;
         this.height = height;
 
-        sprites = new BufferedImage[8];
-        board = new BufferedImage[width/20][height/20];
+        sprites = new BufferedImage[16];
+        board = new BufferedImage[width / 20][height / 20];
 
         mouseInput input = new mouseInput(this);
         addMouseListener(input);
@@ -28,14 +31,14 @@ public class gamePanel extends JPanel {
         setMinimumSize(size);
         setPreferredSize(size);
         setMaximumSize(size);
+        importTileSprites();
 
         setBackground(Color.LIGHT_GRAY);
         setBorder(new EmptyBorder(20, 20, 20, 20));
 
-        boardCreator boardCreation = new boardCreator(width/20, height/20,1);
+        boardCreation = new boardCreator(width / 20, height / 20, 1);
+        fillBoard(boardCreation.getboardContents());
 
-   //     fillBoard(boardCreation.getboardContents());
-        importTileSprites();
     }
 
     private void importTileSprites() {
@@ -49,7 +52,8 @@ public class gamePanel extends JPanel {
             sprites[i] = img.getSubimage(i * 16, 0, 16, 16);
         }
     }
-    public void fillBoard(BufferedImage[][] contents){
+
+    public void fillBoard(BufferedImage[][] contents) {
         for (int i = 0; i < board.length; i++) {
             for (int e = 0; e < board[0].length; e++) {
                 board[i][e] = contents[i][e];
@@ -57,21 +61,41 @@ public class gamePanel extends JPanel {
         }
         repaint();
     }
+
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        for (int i = 0; i <= getWidth()/20-1; i++) {
-            for (int e = 0; e <= getHeight()/20-1; e++ ) {
-                g.drawImage(board[i][e], i*20, e*20, 20, 20, null);
+        for (int i = 0; i <= getWidth() / 20 - 1; i++) {
+            for (int e = 0; e <= getHeight() / 20 - 1; e++) {
+                g.drawImage(board[i][e], i * 20, e * 20, 20, 20, null);
             }
         }
     }
-    public void revealSprite(int x, int y){
-        int roundX = (int)Math.floor(x/2*0.1);
-        int roundY = (int)Math.floor(y/2*0.1);
-        if (roundX >=0 && roundY >= 0 && roundX < getWidth()/20 && roundY < getHeight()/20)
-            board[roundX][roundY] = sprites[1];
+
+    public void revealSprite(int x, int y) {
+        int roundX = (int) Math.floor(x/2 * 0.1);
+        int roundY = (int) Math.floor(y/2 * 0.1);
+        if (roundX >= 0 && roundY >= 0 && roundX < getWidth() / 20 && roundY < getHeight() / 20)
+            board[roundX][roundY] = boardCreation.getSpriteAtPosXY(roundX, roundY);
 
         repaint();
+    }
+    public void revealFullBoard() {
+        for (int i = 0; i <= getWidth() / 20 - 1; i++) {
+            for (int e = 0; e <= getHeight() / 20 - 1; e++) {
+                board[i][e] = boardCreation.getSpriteAtPosXY(i, e);
+            }
+        }
+        repaint();
+    }
+    public void loseCondition(int x, int y){
+        int roundX = (int) Math.floor(x / 2 * 0.1);
+        int roundY = (int) Math.floor(y / 2 * 0.1);
+        if (roundX >= 0 && roundY >= 0 && roundX < getWidth() / 20 && roundY < getHeight() / 20) {
+            if (boardCreation.returnNumerical(roundX, roundY) == 13) {
+                revealFullBoard();
+                board[roundX][roundY] = sprites[14];
+            }
+        }
     }
 }
 

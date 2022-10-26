@@ -20,7 +20,8 @@ public class mouseInput implements MouseListener {
     }
 
     public void mouseReleased(MouseEvent e) {
-        content.revealSprite(e.getX(), e.getY());
+        content.revealSprite(e.getX(),e.getY());
+        content.loseCondition(e.getX(),e.getY());
     }
 
     public void mouseEntered(MouseEvent e) {

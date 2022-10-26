@@ -10,7 +10,7 @@ public class MineSweeper implements Runnable{       //Re.1
     private gamePanel gamePanel;
     private Thread gameThread; //Re.1
     private Thread clockThread;
-    private int width = 200, height = 200;
+    private int width = 400, height = 400;
 
     //No argument constructor
     public MineSweeper() {
