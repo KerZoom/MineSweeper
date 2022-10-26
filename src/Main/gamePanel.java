@@ -74,7 +74,8 @@ public class gamePanel extends JPanel {
     public void revealSprite(int x, int y) {
         int roundX = (int) Math.floor(x/2 * 0.1);
         int roundY = (int) Math.floor(y/2 * 0.1);
-        if (roundX >= 0 && roundY >= 0 && roundX < getWidth() / 20 && roundY < getHeight() / 20)
+        if (roundX >= 0 && roundY >= 0 && roundX < getWidth() / 20 && roundY < getHeight() / 20
+        && board[roundX][roundY] != sprites[10])
             board[roundX][roundY] = boardCreation.getSpriteAtPosXY(roundX, roundY);
 
         repaint();
@@ -96,6 +97,23 @@ public class gamePanel extends JPanel {
                 board[roundX][roundY] = sprites[14];
             }
         }
+    }
+    public void flagTile(int x, int y){
+        int roundX = (int) Math.floor(x / 2 * 0.1);
+        int roundY = (int) Math.floor(y / 2 * 0.1);
+        if (roundX >= 0 && roundY >= 0 && roundX < getWidth() / 20 && roundY < getHeight() / 20) {
+            System.out.print("Right click");
+            if (boardCreation.returnNumerical(roundX, roundY) == 13) {
+                boardCreation.flagBomb(roundX,roundY);
+            }
+
+            if (board[roundX][roundY] == sprites[9]){
+                board[roundX][roundY] = sprites[10];
+                System.out.print("Place flag");
+            }
+
+        }
+        repaint();
     }
 }
 

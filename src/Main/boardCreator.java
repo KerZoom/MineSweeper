@@ -123,6 +123,9 @@ public class boardCreator {
     public BufferedImage[][] getboardContents(){
         return this.boardContents;
     }
+    public void flagBomb(int x, int y){
+        numericalBoardPositions[x][y] = 15;
+    }
     public int returnNumerical(int x, int y){
         return numericalBoardPositions[x][y];
     }
