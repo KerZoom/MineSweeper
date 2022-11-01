@@ -21,13 +21,17 @@ public class mouseInput implements MouseListener {
     }
 
     public void mouseReleased(MouseEvent e) {
+        int roundX = (int) Math.floor(e.getX()/2 * 0.1);
+        int roundY = (int) Math.floor(e.getY()/2 * 0.1);
         if (content.isMouseActive()) {
-            if (SwingUtilities.isLeftMouseButton(e) && !content.isFlagged(e.getX(), e.getY())) {
-                content.revealSprite(e.getX(), e.getY());
-                content.loseCondition(e.getX(), e.getY());
-            } else if (SwingUtilities.isRightMouseButton(e))
-                content.flagTile(e.getX(), e.getY());
+            if (SwingUtilities.isLeftMouseButton(e) && !content.isFlagged(roundX, roundY)) {
+                content.revealSprite(roundX, roundY);
+                content.loseCondition(roundX, roundY);
+            } else if (SwingUtilities.isRightMouseButton(e)) {
+                content.flagTile(roundX, roundY);
+            }
         }
+        content.clearCells(roundX,roundY);
     }
 
     public void mouseEntered(MouseEvent e) {
