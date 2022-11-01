@@ -10,19 +10,18 @@ import java.util.Arrays;
 public class boardCreator {
 
     private int width, height, difficulty = 0, totalMineCount = 0;
-    private final BufferedImage[][] boardContents;
     private BufferedImage img;
     private final BufferedImage[] tileSprites;
     private final int[][] numericalBoardPositions;
 
-    public boardCreator(int width, int height, int difficulty) {
+    public boardCreator(int width, int height, int difficulty, int x, int y) {
 
         this.width = width;
         this.height = height;
 
         tileSprites = new BufferedImage[16];
 
-        boardContents = new BufferedImage[width][height];
+
         numericalBoardPositions = new int[width][height];
 
         this.difficulty = difficulty;
@@ -30,12 +29,9 @@ public class boardCreator {
         importTileSprites();
 
         difficultySelector();
-
-        fullBoard();
-
-        generateRandomBoard();
-
+        generateRandomBoard(x,y);
     }
+
     public void difficultySelector(){
         switch (difficulty) {
             case 1:
@@ -60,15 +56,8 @@ public class boardCreator {
             tileSprites[i] = img.getSubimage(i * 16, 0, 16, 16);
         }
     }
-    public void fullBoard(){
-        for (int i = 0; i < boardContents.length; i++) {
-            for (int e = 0; e < boardContents[0].length; e++) {
-                boardContents[i][e] = tileSprites[9];
-            }
-        }
-    }
 
-    public void generateRandomBoard() {
+    public void generateRandomBoard(int x, int y) {
         int randomNum;
         int mineCount;
 
@@ -81,6 +70,10 @@ public class boardCreator {
                 }
             }
         }
+        numericalBoardPositions[x][y] = 0;
+        if (numericalBoardPositions[x][y] == 13)
+            totalMineCount--;
+
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
                 mineCount = 0;
@@ -118,9 +111,7 @@ public class boardCreator {
     public BufferedImage getSpriteAtPosXY(int x, int y){
         return tileSprites[numericalBoardPositions[x][y]];
     }
-    public BufferedImage[][] getboardContents(){
-        return this.boardContents;
-    }
+
     public int returnNumerical(int x, int y){
         return numericalBoardPositions[x][y];
     }

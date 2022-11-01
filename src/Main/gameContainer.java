@@ -1,8 +1,12 @@
 package Main;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.InputStream;
 
 public class gameContainer extends JPanel {
 
@@ -16,8 +20,3 @@ public class gameContainer extends JPanel {
 
     }
 }
-
-/* References
-    Re.1 https://github.com/andreasisnes/pygame-minesweeper-sprites
-
- */
