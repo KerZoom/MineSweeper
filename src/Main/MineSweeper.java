@@ -16,9 +16,9 @@ public class MineSweeper implements Runnable{       //Re.1
     //No argument constructor
     public MineSweeper() {
         gameContainer = new gameContainer(width+20, height+15);       // Size of window needs to be modifiable to allow multiple difficulty modes
-        gamePanel = new gamePanel(width, height);
+        barPanel = new barPanel(width+20, 40);
+        gamePanel = new gamePanel(width, height, barPanel);
         gameContainer.add(gamePanel);
-        barPanel = new barPanel(width+20, 60);
         window = new Window( barPanel, gameContainer);
         startLoop();
     }
@@ -38,8 +38,8 @@ public class MineSweeper implements Runnable{       //Re.1
             now = System.nanoTime();
             if (now - lastFrame >= timePerFrame) {  //Finished FPS control, actually works now
                                                     //Repaints the JFrame every frame
-                lastFrame = System.nanoTime();      //Real time isn't actually necessary but I will
-                                                    //Need this for the timer later on
+                lastFrame = System.nanoTime();      //Real time isn't actually necessary for the game but I will
+                                                   //Need this for the timer later on
             }
         }
     }

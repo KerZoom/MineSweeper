@@ -17,18 +17,20 @@ public class gamePanel extends JPanel {
     private BufferedImage[][] board;
     private int tilesClicked = 0, totalTiles;
     private boolean mouseActive = true;
+    private barPanel barpanel;
 
     private boardCreator boardCreation;
 
-    public gamePanel(int width, int height) {
+    public gamePanel(int width, int height, barPanel barpanel) {
         this.width = width;
         this.height = height;
         this.totalTiles = width * height;
         sprites = new BufferedImage[16];
         board = new BufferedImage[width / 20][height / 20];
         numericalWinBoard = new int[width / 20][height /  20];
-        mouseInput input = new mouseInput(this);
+        mouseInput input = new mouseInput(this, barpanel);
         addMouseListener(input);
+        this.barpanel = barpanel;
 
         Dimension size = new Dimension(width, height);
         setMinimumSize(size);
@@ -44,8 +46,9 @@ public class gamePanel extends JPanel {
     }
     public void newGame(int x, int y){
         boardCreation = new boardCreator(width / 20, height / 20, 0, x, y);
-
+        barpanel.setFlags(boardCreation.returnTotalMineCount());
         resetNumericalBoards();
+
     }
 
     private void importTileSprites() {
@@ -166,9 +169,11 @@ public class gamePanel extends JPanel {
             if (board[x][y] == sprites[9]){
                 board[x][y] = sprites[10];
                 numericalBoard[x][y] = 10;
+                barpanel.incrementFlagsDown();
             } else if (board[x][y] == sprites[10]){
                 board[x][y] = sprites[9];
                 numericalBoard[x][y] = boardCreation.returnNumerical(x,y);
+                barpanel.incrementFlagsUp();
             }
         }
         repaint();
