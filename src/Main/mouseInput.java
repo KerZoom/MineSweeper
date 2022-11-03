@@ -45,6 +45,8 @@ public class mouseInput implements MouseListener {
                 gameStart = false;
                 content.revealSprite(roundX, roundY);
                 content.clearCells(roundX, roundY);
+                barpanel.setFace(0);
+                barpanel.startCounting();
             }
         }
 

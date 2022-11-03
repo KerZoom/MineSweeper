@@ -193,6 +193,8 @@ public class gamePanel extends JPanel {
             if (numericalBoard[x][y] == 13) {
                 revealFullBoard();
                 board[x][y] = sprites[14];
+                barpanel.setFace(4);
+                barpanel.stopCounting();
             }
         }
     }
@@ -207,7 +209,6 @@ public class gamePanel extends JPanel {
                 }
             }
         }
-        System.out.println("Number of correct flags: " + correctFlags);
 
         for (int x= 0; x < getWidth() / 20; x++) {                              //This is a really stupid way of creating a win condition
             for (int y = 0; y < getHeight() / 20; y++) {                        //But it's the only method I could get to work reliably
@@ -218,6 +219,7 @@ public class gamePanel extends JPanel {
         }
         if (tilesClicked + correctFlags == ((getWidth() / 20) * (getHeight() / 20))) {
             System.out.println("Winner");
+            barpanel.setFace(3);
             mouseActive = false;
         }
     }

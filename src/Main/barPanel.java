@@ -7,14 +7,14 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class barPanel extends JPanel {
+public class barPanel extends JPanel{
 
-    private int flags = 0, width, height;
+    private int flags = 0, width, height, time = 0;
     private final BufferedImage[] numberSprites;
     private final BufferedImage[] faceSprites;
     private BufferedImage face;
     private BufferedImage img;
-    boolean active = false;
+    private boolean counting = false;
 
     public barPanel(int width, int height) {
         Dimension size = new Dimension(width, height);
@@ -79,27 +79,50 @@ public class barPanel extends JPanel {
         repaint();
     }
 
-    private void incrementTime() {
-
+    public void incrementTime() {
+        this.time++;
+    }
+    public int getTime(){
+        return this.time;
+    }
+    public void startCounting(){
+        this.counting = true;
+    }
+    public void stopCounting(){
+        this.counting = false;
+    }
+    public boolean isCounting(){
+        return counting;
     }
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+        g.drawImage(face,(getWidth()/2)-12,10,25,25,null);
 
-        String flagsString = Integer.toString(getFlags());
-        if (flags >= 0) {
-            for (int i = 0; i < Integer.toString(flags).length(); i++) {
-                g.drawImage(numberSprites[Integer.parseInt(Character.toString(flagsString.charAt(i)))], 20 + (i * 13), 10, 13, 23, null);
+        if (counting) {
+            String timeString = Integer.toString(getTime());
+            for (int i = 0; i < Integer.toString(time).length(); i++) {
+                g.drawImage(numberSprites[Integer.parseInt(Character.toString(timeString.charAt(i)))], width * 20 - 30 - (i * 13), 10, 13, 23, null);
             }
         }
-        else {
+        String flagsString = Integer.toString(getFlags());
+        if (flags >= 0 && flags < 10) {
+            g.drawImage(numberSprites[0], 20, 10, 13, 23, null);
+            for (int i = 0; i < Integer.toString(flags).length(); i++) {
+                g.drawImage(numberSprites[Integer.parseInt(Character.toString(flagsString.charAt(i)))], 33 + (i * 13), 10, 13, 23, null);
+            }
+        }
+        else if (flags < 0){
             g.drawImage(numberSprites[10], 20, 10, 13, 23, null);
             for (int i = 1; i < Integer.toString(flags).length(); i++) {
                 g.drawImage(numberSprites[Integer.parseInt(Character.toString(flagsString.charAt(i)))], 20 + (i * 13), 10, 13, 23, null);
 
             }
         }
-
-        g.drawImage(face,width*20/2-12,10,25,25,null);
+        else{
+            for (int i = 0; i < Integer.toString(flags).length(); i++) {
+                g.drawImage(numberSprites[Integer.parseInt(Character.toString(flagsString.charAt(i)))], 20 + (i * 13), 10, 13, 23, null);
+            }
+        }
     }
 }

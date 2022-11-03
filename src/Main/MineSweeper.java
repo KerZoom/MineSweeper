@@ -2,6 +2,9 @@ package Main;
 
 // References are at the bottom of the file and are indexed by code E.g. Re.1
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class MineSweeper implements Runnable{       //Re.1
 
     private Window window;
@@ -9,9 +12,8 @@ public class MineSweeper implements Runnable{       //Re.1
     private barPanel barPanel;
     private gamePanel gamePanel;
     private Thread gameThread; //Re.1
-    private Thread clockThread;
-    private final int width = 200;
-    private final int height = 200;
+    private final int width = 400;
+    private final int height = 400;
 
     //No argument constructor
     public MineSweeper() {
@@ -38,8 +40,11 @@ public class MineSweeper implements Runnable{       //Re.1
             now = System.nanoTime();
             if (now - lastFrame >= timePerFrame) {  //Finished FPS control, actually works now
                                                     //Repaints the JFrame every frame
-                lastFrame = System.nanoTime();      //Real time isn't actually necessary for the game but I will
-                                                   //Need this for the timer later on
+                lastFrame = System.nanoTime();
+                if (barPanel.isCounting()) {
+                    barPanel.incrementTime();
+                    barPanel.repaint();
+                }
             }
         }
     }
