@@ -36,7 +36,7 @@ public class mainMenu {
         setHeight(300);
         setWidth(300);
         setDifficulty(30);
-        String[] sizes = {"15x15","25x25","40x40","50x50","100x50"};
+        String[] sizes = {"15x15","25x25","40x40","100x45"};
         JComboBox<String> sizeSelect = new JComboBox<>(sizes);
         sizeSelect.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -58,12 +58,7 @@ public class mainMenu {
                         setWidth(800);
                         setDifficulty(200);
                         break;
-                    case("50x50"):
-                        setHeight(1000);
-                        setWidth(1000);
-                        setDifficulty(400);
-                        break;
-                    case("100x50"):
+                    case("100x45"):
                         setHeight(900);
                         setWidth(2000);
                         setDifficulty(800);
