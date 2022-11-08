@@ -1,5 +1,7 @@
 package Main;
 
+import org.w3c.dom.css.RGBColor;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -16,20 +18,20 @@ public class barPanel extends JPanel{
     private BufferedImage img;
     private boolean counting = false;
 
-    public barPanel(int width, int height) {
-        Dimension size = new Dimension(width, height);
-        FlowLayout layout = new FlowLayout();
+    public barPanel(int width, int height, int difficulty) {
+        Dimension size = new Dimension(width, height+5);
         numberSprites = new BufferedImage[11];
         faceSprites = new BufferedImage[5];
         setFace(0);
-
+        setFlags(difficulty);
         this.width = width/20;
         this.height = height/20;
 
         setMinimumSize(size);
         setPreferredSize(size);
         setMaximumSize(size);
-        setBackground(Color.GRAY);
+        Color backgroundColour = new Color(192,192,192); // Color white
+        setBackground(backgroundColour);
         importTileSprites();
         repaint();
     }
@@ -39,7 +41,7 @@ public class barPanel extends JPanel{
             InputStream stream = getClass().getResourceAsStream("/numbers.png"); //Re.1
             img = ImageIO.read(stream);
         } catch (IOException e) {
-            System.out.println("Error: File not found - numbers");
+            System.out.println("Error: File not found - numbers.png");
         }
         for (int i = 0; i < numberSprites.length; i++) {
             numberSprites[i] = img.getSubimage(i * 13, 0, 13, 23);
@@ -49,7 +51,7 @@ public class barPanel extends JPanel{
             InputStream stream = getClass().getResourceAsStream("/faces.png"); //Re.1
             img = ImageIO.read(stream);
         } catch (IOException e) {
-            System.out.println("Error: File not found - faces");
+            System.out.println("Error: File not found - faces.png");
         }
         for (int i = 0; i < faceSprites.length; i++) {
             faceSprites[i] = img.getSubimage(i * 24, 0, 24, 24);
@@ -97,31 +99,32 @@ public class barPanel extends JPanel{
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+
         g.drawImage(face,(getWidth()/2)-12,10,25,25,null);
 
-        if (counting) {
-            String timeString = Integer.toString(getTime());
+        int x = 13 + (13*Integer.toString(getTime()).length());
+        String timeString = Integer.toString(getTime());
             for (int i = 0; i < Integer.toString(time).length(); i++) {
-                g.drawImage(numberSprites[Integer.parseInt(Character.toString(timeString.charAt(i)))], width * 20 - 30 - (i * 13), 10, 13, 23, null);
+                g.drawImage(numberSprites[Integer.parseInt(Character.toString(timeString.charAt(i)))], width * 20 - x + (i * 13), 10, 13, 23, null);
             }
-        }
+
         String flagsString = Integer.toString(getFlags());
         if (flags >= 0 && flags < 10) {
-            g.drawImage(numberSprites[0], 20, 10, 13, 23, null);
+            g.drawImage(numberSprites[0], 11, 10, 13, 23, null);
             for (int i = 0; i < Integer.toString(flags).length(); i++) {
-                g.drawImage(numberSprites[Integer.parseInt(Character.toString(flagsString.charAt(i)))], 33 + (i * 13), 10, 13, 23, null);
+                g.drawImage(numberSprites[Integer.parseInt(Character.toString(flagsString.charAt(i)))], 24 + (i * 13), 10, 13, 23, null);
             }
         }
         else if (flags < 0){
-            g.drawImage(numberSprites[10], 20, 10, 13, 23, null);
+            g.drawImage(numberSprites[10], 11, 10, 13, 23, null);
             for (int i = 1; i < Integer.toString(flags).length(); i++) {
-                g.drawImage(numberSprites[Integer.parseInt(Character.toString(flagsString.charAt(i)))], 20 + (i * 13), 10, 13, 23, null);
+                g.drawImage(numberSprites[Integer.parseInt(Character.toString(flagsString.charAt(i)))], 11 + (i * 13), 10, 13, 23, null);
 
             }
         }
         else{
             for (int i = 0; i < Integer.toString(flags).length(); i++) {
-                g.drawImage(numberSprites[Integer.parseInt(Character.toString(flagsString.charAt(i)))], 20 + (i * 13), 10, 13, 23, null);
+                g.drawImage(numberSprites[Integer.parseInt(Character.toString(flagsString.charAt(i)))], 11 + (i * 13), 10, 13, 23, null);
             }
         }
     }

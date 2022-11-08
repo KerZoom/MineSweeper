@@ -41,11 +41,10 @@ public class mouseInput implements MouseListener {
                     }
                 }
             } else {
-                content.newGame(roundX, roundY);
+                content.startGame(roundX, roundY);
                 gameStart = false;
                 content.revealSprite(roundX, roundY);
                 content.clearCells(roundX, roundY);
-                barpanel.setFace(0);
                 barpanel.startCounting();
             }
         }

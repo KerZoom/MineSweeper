@@ -9,28 +9,34 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class gamePanel extends JPanel {
-    int width, height;
+
+    int width, height, difficulty;
     private BufferedImage img;
-    private int[][] numericalBoard;
-    private int[][] numericalWinBoard;
+
+    private final int[][] numericalBoard;
+    private final int[][] numericalWinBoard;
     private final BufferedImage[] sprites;
-    private BufferedImage[][] board;
-    private int tilesClicked = 0, totalTiles;
+    private final BufferedImage[][] board;
+    private final barPanel barpanel;
+    private boardCreator boardCreator;
+
     private boolean mouseActive = true;
-    private barPanel barpanel;
 
-    private boardCreator boardCreation;
+    public gamePanel(int width, int height, int difficulty, barPanel barpanel) {
 
-    public gamePanel(int width, int height, barPanel barpanel) {
         this.width = width;
         this.height = height;
-        this.totalTiles = width * height;
+        this.difficulty = difficulty;
+        this.barpanel = barpanel;
+
         sprites = new BufferedImage[16];
-        board = new BufferedImage[width / 20][height / 20];
-        numericalWinBoard = new int[width / 20][height /  20];
+
+        board = new BufferedImage[getWidth() / 20][getWidth() / 20];
+        numericalWinBoard = new int[getWidth() / 20][getHeight() /  20];
+        numericalBoard = new int[getWidth() / 20][getHeight() / 20];
+
         mouseInput input = new mouseInput(this, barpanel);
         addMouseListener(input);
-        this.barpanel = barpanel;
 
         Dimension size = new Dimension(width, height);
         setMinimumSize(size);
@@ -38,15 +44,26 @@ public class gamePanel extends JPanel {
         setMaximumSize(size);
         importTileSprites();
 
-        setBackground(Color.LIGHT_GRAY);
-        setBorder(new EmptyBorder(20, 20, 20, 20));
-        numericalBoard = new int[width / 20][ width / 20];
+        setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
+
         blankBoard();
 
     }
-    public void newGame(int x, int y){
-        boardCreation = new boardCreator(width / 20, height / 20, 0, x, y);
-        barpanel.setFlags(boardCreation.returnTotalMineCount());
+
+    public int getWidth() {
+        return width;
+    }
+    public int getHeight() {
+        return height;
+    }
+    public int getDifficulty(){
+        return difficulty;
+    }
+
+    public void startGame(int x, int y){
+        boardCreator = new boardCreator(getWidth() / 20, getHeight() / 20, getDifficulty(), x, y);
+        barpanel.setFlags(boardCreator.returnTotalMineCount());
+        barpanel.setFace(0);
         resetNumericalBoards();
 
     }
@@ -56,7 +73,7 @@ public class gamePanel extends JPanel {
             InputStream stream = getClass().getResourceAsStream("/tiles.png"); //Re.1
             img = ImageIO.read(stream);
         } catch (IOException e) {
-            System.out.println("Error: File not found - Game Panel");
+            System.out.println("Error: File not found - tiles.png");
         }
         for (int i = 0; i < sprites.length; i++) {
             sprites[i] = img.getSubimage(i * 16, 0, 16, 16);
@@ -74,7 +91,7 @@ public class gamePanel extends JPanel {
     public void resetNumericalBoards() {
         for (int i = 0; i < numericalBoard.length; i++) {
             for (int e = 0; e < numericalBoard[0].length;e++){
-                numericalBoard[i][e] = boardCreation.returnNumerical(i,e);
+                numericalBoard[i][e] = boardCreator.returnNumerical(i,e);
                 numericalWinBoard[i][e] = 0;
             }
         }
@@ -91,7 +108,7 @@ public class gamePanel extends JPanel {
     }
     public void revealSprite(int x, int y) {
         if (insideBoard(x, y)) {
-            board[x][y] = boardCreation.getSpriteAtPosXY(x, y);
+            board[x][y] = boardCreator.getSpriteAtPosXY(x, y);
             numericalWinBoard[x][y] = 1;
         }
         repaint();
@@ -154,10 +171,10 @@ public class gamePanel extends JPanel {
     public void revealFullBoard() {
         for (int i = 0; i <= getWidth() / 20 - 1; i++) {
             for (int e = 0; e <= getHeight() / 20 - 1; e++) {
-                if (board[i][e] == sprites[10] && boardCreation.returnNumerical(i, e) == 13)
+                if (board[i][e] == sprites[10] && boardCreator.returnNumerical(i, e) == 13)
                     board[i][e] = sprites[15];
                 else {
-                    board[i][e] = boardCreation.getSpriteAtPosXY(i, e);
+                    board[i][e] = boardCreator.getSpriteAtPosXY(i, e);
                 }
             }
             mouseActive = false;
@@ -172,7 +189,7 @@ public class gamePanel extends JPanel {
                 barpanel.incrementFlagsDown();
             } else if (board[x][y] == sprites[10]){
                 board[x][y] = sprites[9];
-                numericalBoard[x][y] = boardCreation.returnNumerical(x,y);
+                numericalBoard[x][y] = boardCreator.returnNumerical(x,y);
                 barpanel.incrementFlagsUp();
             }
         }
@@ -203,7 +220,7 @@ public class gamePanel extends JPanel {
         for (int x= 0; x <= getWidth() / 20 - 1; x++) {
             for (int y = 0; y <= getHeight() / 20 - 1; y++) {
                 if (numericalBoard[x][y] == 10){
-                    if(numericalBoard[x][y] == 10 && boardCreation.returnNumerical(x,y) == 13) {
+                    if(numericalBoard[x][y] == 10 && boardCreator.returnNumerical(x,y) == 13) {
                         correctFlags++;
                     }
                 }

@@ -16,7 +16,7 @@ public class gameContainer extends JPanel {
         setMinimumSize(size);
         setPreferredSize(size);
         setMaximumSize(size);
-        setBackground(Color.GRAY);
-
+        Color lightishGrey = new Color(189,189,189,189);
+        setBackground(lightishGrey);
     }
 }

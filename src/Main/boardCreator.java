@@ -1,15 +1,13 @@
 package Main;
 
 import javax.imageio.ImageIO;
-import javax.swing.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Arrays;
 
 public class boardCreator {
 
-    private int width, height, difficulty = 0, totalMineCount = 0;
+    private int width, height, difficulty, totalMineCount = 0;
     private BufferedImage img;
     private final BufferedImage[] tileSprites;
     private final int[][] numericalBoardPositions;
@@ -18,39 +16,21 @@ public class boardCreator {
 
         this.width = width;
         this.height = height;
-
-        tileSprites = new BufferedImage[16];
-
-
-        numericalBoardPositions = new int[width][height];
-
         this.difficulty = difficulty;
 
-        importTileSprites();
+        tileSprites = new BufferedImage[16];
+        numericalBoardPositions = new int[width][height];
 
-        difficultySelector();
+        importTileSprites();
         generateRandomBoard(x,y);
     }
 
-    public void difficultySelector(){
-        switch (difficulty) {
-            case 1:
-                difficulty = 17;
-                break;
-            case 2:
-                difficulty = 20;
-                break;
-            default:
-                difficulty = 10;
-                break;
-        }
-    }
     private void importTileSprites() {
         try {
             InputStream stream = getClass().getResourceAsStream("/tiles.png");
             img = ImageIO.read(stream);
         } catch (IOException e) {
-            System.out.println("Error: File not found - Game Panel");
+            System.out.println("Error: File not found - tiles.png");
         }
         for (int i = 0; i < tileSprites.length; i++) {
             tileSprites[i] = img.getSubimage(i * 16, 0, 16, 16);
@@ -58,21 +38,29 @@ public class boardCreator {
     }
 
     public void generateRandomBoard(int x, int y) {
-        int randomNum;
-        int mineCount;
+        int mineCount, indexNum;
 
-        for (int i = 0; i < this.width; i++) {
-            for (int j = 0; j < this.height; j++) {
-                randomNum = (int) (Math.random() * 100);
-                if (randomNum < difficulty) {
-                    numericalBoardPositions[i][j] = 13;
-                    totalMineCount++;
+        indexNum = (y*width + x);
+        System.out.print(indexNum);
+        int[] temporaryArray = new int[width*height];
+        for (int i=0;i < this.difficulty;i++){
+            boolean valid = false;
+            while (!valid) {
+                int tempnum = (int)(Math.random() * width*height);
+                if (temporaryArray[tempnum] != 13 && temporaryArray[tempnum] != indexNum) {
+                    temporaryArray[tempnum] = 13;
+                    valid = true;
                 }
             }
         }
-        numericalBoardPositions[x][y] = 0;
-        if (numericalBoardPositions[x][y] == 13)
-            totalMineCount--;
+
+        int e = 0;
+        for (int i=0;i<width;i++){
+            for (int j=0;j<height;j++) {
+                numericalBoardPositions[i][j] = temporaryArray[e];
+                e++;
+            }
+        }
 
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
@@ -116,6 +104,6 @@ public class boardCreator {
         return numericalBoardPositions[x][y];
     }
     public int returnTotalMineCount(){
-        return totalMineCount;
+        return this.difficulty;
     }
 }

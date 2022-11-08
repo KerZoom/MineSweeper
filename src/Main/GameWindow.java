@@ -4,13 +4,12 @@ package Main;
 
 import javax.swing.*;
 
-public class Window {
+public class GameWindow {
     private final JFrame jframe;
 
-    public Window(barPanel barPanel, gameContainer gameContainer){
+    public GameWindow(barPanel barPanel, gameContainer gameContainer){
         jframe = new JFrame();
-
-        jframe.setDefaultCloseOperation(jframe.EXIT_ON_CLOSE);      //Re.1
+        jframe.setDefaultCloseOperation(jframe.EXIT_ON_CLOSE);
         jframe.setLayout(new BoxLayout(jframe.getContentPane(),BoxLayout.Y_AXIS));
         jframe.add(barPanel);
         jframe.add(gameContainer);
