@@ -1,6 +1,7 @@
 package Main;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,18 +12,23 @@ public class mainMenu {
     private int height;
     private int difficulty;
     private JFrame frame;
+    private LeaderBoard leaderBoard;
 
     public mainMenu(){
         frame = new JFrame();
         frame.setDefaultCloseOperation(frame.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
         frame.setResizable(false);
+        frame.setLayout(new BoxLayout(frame.getContentPane(),BoxLayout.Y_AXIS));
+
+        leaderBoard = new LeaderBoard();
 
         JPanel panel = new JPanel();
-        Dimension size = new Dimension(400, 600);
+        Dimension size = new Dimension(400, 50);
         panel.setMinimumSize(size);
         panel.setPreferredSize(size);
         panel.setMaximumSize(size);
+
 
         JButton start = new JButton(new AbstractAction() {
             @Override
@@ -36,7 +42,7 @@ public class mainMenu {
         setHeight(300);
         setWidth(300);
         setDifficulty(30);
-        String[] sizes = {"15x15","25x25","40x40","100x45"};
+        String[] sizes = {"15x15","25x25","40x40","80x40"};
         JComboBox<String> sizeSelect = new JComboBox<>(sizes);
         sizeSelect.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -58,10 +64,10 @@ public class mainMenu {
                         setWidth(800);
                         setDifficulty(200);
                         break;
-                    case("100x45"):
-                        setHeight(900);
-                        setWidth(2000);
-                        setDifficulty(800);
+                    case("80x40"):
+                        setHeight(800);
+                        setWidth(1600);
+                        setDifficulty(600);
                         break;
                 }
             }
@@ -71,6 +77,7 @@ public class mainMenu {
         panel.add(sizeSelect);
 
         frame.add(panel);
+        frame.add(leaderBoard);
         frame.pack();
         frame.setVisible(true);
     }
@@ -99,5 +106,4 @@ public class mainMenu {
         frame.setVisible(false);
         new MineSweeper(getWidth(),getHeight(),getDifficulty());
     }
-
 }

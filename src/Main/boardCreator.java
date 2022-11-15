@@ -47,7 +47,7 @@ public class boardCreator {
             boolean valid = false;
             while (!valid) {
                 int tempnum = (int)(Math.random() * width*height);
-                if (temporaryArray[tempnum] != 13 && temporaryArray[tempnum] != indexNum) {
+                if (temporaryArray[tempnum] != 13 && tempnum != indexNum) {
                     temporaryArray[tempnum] = 13;
                     valid = true;
                 }
