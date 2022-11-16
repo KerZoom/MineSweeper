@@ -16,13 +16,10 @@ public class mouseInput implements MouseListener {
     }
 
     public void mouseClicked(MouseEvent e) {
-
     }
-
     public void mousePressed(MouseEvent e) {
 
     }
-
     public void mouseReleased(MouseEvent e) {
         int roundX = (int) Math.floor(e.getX() / 2 * 0.1);
         int roundY = (int) Math.floor(e.getY() / 2 * 0.1);
@@ -48,10 +45,7 @@ public class mouseInput implements MouseListener {
                 barpanel.startCounting();
             }
         }
-
-
     }
-
     public void mouseEntered(MouseEvent e) {
 
     }

@@ -40,7 +40,7 @@ public class boardCreator {
     public void generateRandomBoard(int x, int y) {
         int mineCount, indexNum;
 
-        indexNum = (y*width + x);
+        indexNum = (y*width + x+1);
         System.out.print(indexNum);
         int[] temporaryArray = new int[width*height];
         for (int i=0;i < this.difficulty;i++){

@@ -13,6 +13,9 @@ public class mainMenu {
     private int difficulty;
     private JFrame frame;
     private LeaderBoard leaderBoard;
+    private gamePanel gamepanel;
+    private barPanel barpanel;
+    private MineSweeper mineSweeper;
 
     public mainMenu(){
         frame = new JFrame();
@@ -24,24 +27,21 @@ public class mainMenu {
         leaderBoard = new LeaderBoard();
 
         JPanel panel = new JPanel();
-        Dimension size = new Dimension(400, 50);
+        Dimension size = new Dimension(300, 50);
         panel.setMinimumSize(size);
         panel.setPreferredSize(size);
         panel.setMaximumSize(size);
 
-
         JButton start = new JButton(new AbstractAction() {
-            @Override
             public void actionPerformed(ActionEvent e) {
                 newGame();
             }
         });
         start.setText("Start game!");
 
-
         setHeight(300);
         setWidth(300);
-        setDifficulty(30);
+        setDifficulty(10);
         String[] sizes = {"15x15","25x25","40x40","80x40"};
         JComboBox<String> sizeSelect = new JComboBox<>(sizes);
         sizeSelect.addActionListener(new ActionListener() {
@@ -104,6 +104,6 @@ public class mainMenu {
 
     public void newGame(){
         frame.setVisible(false);
-        new MineSweeper(getWidth(),getHeight(),getDifficulty());
+        mineSweeper = new MineSweeper(getWidth(),getHeight(),getDifficulty(), leaderBoard);
     }
 }

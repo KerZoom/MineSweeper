@@ -12,22 +12,24 @@ public class gamePanel extends JPanel {
 
     int width, height, difficulty;
     private BufferedImage img;
-
     private final int[][] numericalBoard;
     private final int[][] numericalWinBoard;
     private final BufferedImage[] sprites;
     private final BufferedImage[][] board;
     private final barPanel barpanel;
     private boardCreator boardCreator;
+    private String name;
+    private boolean gameWon = false;
 
     private boolean mouseActive = true;
-
-    public gamePanel(int width, int height, int difficulty, barPanel barpanel) {
+    private LeaderBoard leaderBoard;
+    public gamePanel(int width, int height, int difficulty, barPanel barpanel, LeaderBoard leaderBoard) {
 
         this.width = width;
         this.height = height;
         this.difficulty = difficulty;
         this.barpanel = barpanel;
+        this.leaderBoard = leaderBoard;
 
         sprites = new BufferedImage[16];
 
@@ -204,7 +206,9 @@ public class gamePanel extends JPanel {
     public boolean insideBoard(int x, int y){
         return x >= 0 && y >= 0 && x < getWidth() / 20 && y < getHeight() / 20;
     }
-
+    public String getName(){
+        return name;
+    }
     public void loseCondition(int x, int y){
         if (x >= 0 && y >= 0 && x < getWidth() / 20 && y < getHeight() / 20 && board[x][y] != sprites[9]) {
             if (numericalBoard[x][y] == 13) {
@@ -235,9 +239,21 @@ public class gamePanel extends JPanel {
             }
         }
         if (tilesClicked + correctFlags == ((getWidth() / 20) * (getHeight() / 20))) {
-            System.out.println("Winner");
             barpanel.setFace(3);
+            barpanel.stopCounting();
             mouseActive = false;
+            boolean validName = false;
+            do{
+                name = JOptionPane.showInputDialog("Enter a name");
+                if (name.length() < 10 && name.length() > 1){
+                    validName = true;
+                }
+                else{
+                    JOptionPane.showMessageDialog(null,"Error: Name cannot be less than 1 character and greater than 10","Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }while(!validName);
+            gameWon = true;
+            leaderBoard.isInTopTen(name,barpanel.getTime());
         }
     }
 }
