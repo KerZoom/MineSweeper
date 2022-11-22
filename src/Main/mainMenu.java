@@ -13,8 +13,6 @@ public class mainMenu {
     private int difficulty;
     private JFrame frame;
     private LeaderBoard leaderBoard;
-    private gamePanel gamepanel;
-    private barPanel barpanel;
     private MineSweeper mineSweeper;
 
     public mainMenu(){
@@ -41,7 +39,7 @@ public class mainMenu {
 
         setHeight(300);
         setWidth(300);
-        setDifficulty(10);
+        setDifficulty(5);
         String[] sizes = {"15x15","25x25","40x40","80x40"};
         JComboBox<String> sizeSelect = new JComboBox<>(sizes);
         sizeSelect.addActionListener(new ActionListener() {
@@ -75,7 +73,6 @@ public class mainMenu {
 
         panel.add(start);
         panel.add(sizeSelect);
-
         frame.add(panel);
         frame.add(leaderBoard);
         frame.pack();

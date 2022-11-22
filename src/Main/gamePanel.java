@@ -5,8 +5,8 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
+import java.util.ArrayList;
 
 public class gamePanel extends JPanel {
 
@@ -22,6 +22,10 @@ public class gamePanel extends JPanel {
     private boolean gameWon = false;
 
     private boolean mouseActive = true;
+
+    private PlayerData player;
+
+    private ArrayList<PlayerData> leaderBoardData;
     private LeaderBoard leaderBoard;
     public gamePanel(int width, int height, int difficulty, barPanel barpanel, LeaderBoard leaderBoard) {
 
@@ -253,7 +257,36 @@ public class gamePanel extends JPanel {
                 }
             }while(!validName);
             gameWon = true;
-            leaderBoard.isInTopTen(name,barpanel.getTime());
+            player = new PlayerData(barpanel.getTime(),name);
+            playerDataFileSerialization(player);
+
         }
+    }
+    public void playerDataFileSerialization(PlayerData player){
+        File dataFile = null;
+        try {
+            FileInputStream fileInputStream = new FileInputStream("leaderBoardData.txt");
+            ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
+            leaderBoardData = (ArrayList<PlayerData>) objectInputStream.readObject();
+            objectInputStream.close();
+        }catch (IOException | ClassNotFoundException e){
+            dataFile = new File("leaderBoardData.txt");
+            try {
+                dataFile.createNewFile();
+                System.out.print("New LeaderBoardData File created");
+                leaderBoardData = new ArrayList<PlayerData>();
+            }catch(IOException ignored){}
+        }
+
+        try{
+            FileOutputStream fileOutputStream = new FileOutputStream("leaderBoardData.txt");
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+            leaderBoardData.add(player);
+            objectOutputStream.writeObject(leaderBoardData);
+            objectOutputStream.flush();
+            objectOutputStream.close();
+        }catch(IOException ignored){
+        }
+
     }
 }
