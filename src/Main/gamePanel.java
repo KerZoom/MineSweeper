@@ -2,7 +2,6 @@ package Main;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
@@ -19,21 +18,16 @@ public class gamePanel extends JPanel {
     private final barPanel barpanel;
     private boardCreator boardCreator;
     private String name;
-    private boolean gameWon = false;
-
     private boolean mouseActive = true;
 
-    private PlayerData player;
-
     private ArrayList<PlayerData> leaderBoardData;
-    private LeaderBoard leaderBoard;
-    public gamePanel(int width, int height, int difficulty, barPanel barpanel, LeaderBoard leaderBoard) {
+
+    public gamePanel(int width, int height, int difficulty, barPanel barpanel) {
 
         this.width = width;
         this.height = height;
         this.difficulty = difficulty;
         this.barpanel = barpanel;
-        this.leaderBoard = leaderBoard;
 
         sprites = new BufferedImage[16];
 
@@ -77,6 +71,7 @@ public class gamePanel extends JPanel {
     private void importTileSprites() {
         try {
             InputStream stream = getClass().getResourceAsStream("/tiles.png"); //Re.1
+            assert stream != null;
             img = ImageIO.read(stream);
         } catch (IOException e) {
             System.out.println("Error: File not found - tiles.png");
@@ -256,14 +251,13 @@ public class gamePanel extends JPanel {
                     JOptionPane.showMessageDialog(null,"Error: Name cannot be less than 1 character and greater than 10","Error", JOptionPane.ERROR_MESSAGE);
                 }
             }while(!validName);
-            gameWon = true;
-            player = new PlayerData(barpanel.getTime(),name);
+            PlayerData player = new PlayerData(barpanel.getTime(), name);
             playerDataFileSerialization(player);
 
         }
     }
     public void playerDataFileSerialization(PlayerData player){
-        File dataFile = null;
+        File dataFile;
         try {
             FileInputStream fileInputStream = new FileInputStream("leaderBoardData.txt");
             ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
@@ -274,7 +268,7 @@ public class gamePanel extends JPanel {
             try {
                 dataFile.createNewFile();
                 System.out.print("New LeaderBoardData File created");
-                leaderBoardData = new ArrayList<PlayerData>();
+                leaderBoardData = new ArrayList<>();
             }catch(IOException ignored){}
         }
 

@@ -4,17 +4,17 @@ package Main;
 
 public class MineSweeper implements Runnable{       //Re.1
 
-    private GameWindow gameWindow;
-    private gameContainer gameContainer;
-    private barPanel barPanel;
-    private gamePanel gamePanel;
+    private final GameWindow gameWindow;
+    private final gameContainer gameContainer;
+    private final barPanel barPanel;
+    private final gamePanel gamePanel;
     private Thread gameThread; //Re.1
-    private int width;
-    private int height;
+    private final int width;
+    private final int height;
     public int difficulty;
 
     //No argument constructor
-    public MineSweeper(int width, int height, int difficulty, LeaderBoard leaderBoard) {
+    public MineSweeper(int width, int height, int difficulty) {
         this.width = width;
         this.height = height;
         this.difficulty = difficulty;
@@ -22,7 +22,7 @@ public class MineSweeper implements Runnable{       //Re.1
 
         gameContainer = new gameContainer(width+20, height+20);       // Size of window needs to be modifiable to allow multiple difficulty modes
         barPanel = new barPanel(width+20, 40, difficulty);
-        gamePanel = new gamePanel(getWidth(), getHeight(), getDifficulty(), barPanel, leaderBoard);
+        gamePanel = new gamePanel(getWidth(), getHeight(), getDifficulty(), barPanel);
         gameContainer.add(gamePanel);
         gameWindow = new GameWindow( barPanel, gameContainer);
 

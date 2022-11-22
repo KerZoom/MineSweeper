@@ -1,19 +1,16 @@
 package Main;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.concurrent.Flow;
 
 public class mainMenu {
     private int width;
     private int height;
     private int difficulty;
-    private JFrame frame;
-    private LeaderBoard leaderBoard;
-    private MineSweeper mineSweeper;
+    private final JFrame frame;
+    private final LeaderBoard leaderBoard;
 
     public mainMenu(){
         frame = new JFrame();
@@ -46,31 +43,30 @@ public class mainMenu {
             public void actionPerformed(ActionEvent e) {
                 String sizeChoice = sizeSelect.getItemAt(sizeSelect.getSelectedIndex());
 
-                switch(sizeChoice){
-                    case("15x15"):
+                switch (sizeChoice) {
+                    case ("15x15") -> {
                         setHeight(300);
                         setWidth(300);
                         setDifficulty(30);
-                        break;
-                    case("25x25"):
+                    }
+                    case ("25x25") -> {
                         setHeight(500);
                         setWidth(500);
                         setDifficulty(80);
-                        break;
-                    case("40x40"):
+                    }
+                    case ("40x40") -> {
                         setHeight(800);
                         setWidth(800);
                         setDifficulty(200);
-                        break;
-                    case("80x40"):
+                    }
+                    case ("80x40") -> {
                         setHeight(800);
                         setWidth(1600);
                         setDifficulty(600);
-                        break;
+                    }
                 }
             }
         });
-
         panel.add(start);
         panel.add(sizeSelect);
         frame.add(panel);
@@ -101,6 +97,6 @@ public class mainMenu {
 
     public void newGame(){
         frame.setVisible(false);
-        mineSweeper = new MineSweeper(getWidth(),getHeight(),getDifficulty(), leaderBoard);
+        MineSweeper mineSweeper = new MineSweeper(getWidth(), getHeight(), getDifficulty());
     }
 }

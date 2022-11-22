@@ -4,18 +4,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Scanner;
 
 public class LeaderBoard extends JPanel {
 
     public JPanel panel = new JPanel();
-    private String[] names;
-    private int[] scores;
-    private String[] output;
-    private boolean fileExists = false;
     private ArrayList<PlayerData> leaderBoardData;
-    private JTextArea textArea;
+    private final JTextArea textArea;
     public LeaderBoard(){
 
         Dimension size = new Dimension(250, 200);
@@ -28,41 +22,10 @@ public class LeaderBoard extends JPanel {
         textArea.setEditable(false);
         textArea.setFont(new Font("Monospaced",Font.PLAIN,12));
 
-        names = new String[10];
-        scores = new int[]{0,0,0,0,0,0,0,0,0,0};
-        output = new String[10];
-        Arrays.fill(names, " ");
-
         loadFile();
         printScores();
- /*     readFromFile();
-        */
         panel.add(textArea);
         add(panel);
-    }
-    public void isInTopTen(String name, int score){
-        int index = 0;
-        for (int i=0;i<10;i++){
-            if (score < scores[i]){
-                for (int e=i;e<scores.length;e++){
-                    int tempInt = scores[e];
-                    scores[e] = score;
-                    score = tempInt;
-                }
-            }
-        }
-        for (int i=0;i<10;i++){
-            if (scores[i] == 0){
-                index = i;
-                break;
-            }
-        }
-        System.out.print(index);
-        scores[index] = score;
-        names[index] = name;
-   //     System.out.print(Arrays.toString(scores));
-  //      System.out.print(Arrays.toString(names));
-        //updateOutput();
     }
     public void loadFile() {
         try {
