@@ -41,13 +41,14 @@ public class boardCreator {
         int mineCount, indexNum;
 
         indexNum = (y*width + x+1);
-        System.out.print(indexNum);
+        System.out.print(indexNum + " ");
         int[] temporaryArray = new int[width*height];
         for (int i=0;i < this.difficulty;i++){
             boolean valid = false;
             while (!valid) {
                 int tempnum = (int)(Math.random() * width*height);
                 if (temporaryArray[tempnum] != 13 && tempnum != indexNum) {
+                    System.out.print(tempnum + " ");
                     temporaryArray[tempnum] = 13;
                     valid = true;
                 }
@@ -93,6 +94,9 @@ public class boardCreator {
                     numericalBoardPositions[i][j] = mineCount;
                 }
             }
+        }
+        if (numericalBoardPositions[x][y] == 13){
+
         }
     }
 

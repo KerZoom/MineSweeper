@@ -12,7 +12,7 @@ public class gamePanel extends JPanel {
     int width, height, difficulty;
     private BufferedImage img;
     private final int[][] numericalBoard;
-    private final int[][] numericalWinBoard;
+    private final int[][] TilesAlreadyClickedBoard;
     private final BufferedImage[] sprites;
     private final BufferedImage[][] board;
     private final barPanel barpanel;
@@ -32,7 +32,7 @@ public class gamePanel extends JPanel {
         sprites = new BufferedImage[16];
 
         board = new BufferedImage[getWidth() / 20][getWidth() / 20];
-        numericalWinBoard = new int[getWidth() / 20][getHeight() /  20];
+        TilesAlreadyClickedBoard = new int[getWidth() / 20][getHeight() /  20];
         numericalBoard = new int[getWidth() / 20][getHeight() / 20];
 
         mouseInput input = new mouseInput(this, barpanel);
@@ -93,7 +93,7 @@ public class gamePanel extends JPanel {
         for (int i = 0; i < numericalBoard.length; i++) {
             for (int e = 0; e < numericalBoard[0].length;e++){
                 numericalBoard[i][e] = boardCreator.returnNumerical(i,e);
-                numericalWinBoard[i][e] = 0;
+                TilesAlreadyClickedBoard[i][e] = 0;
             }
         }
         repaint();
@@ -110,7 +110,7 @@ public class gamePanel extends JPanel {
     public void revealSprite(int x, int y) {
         if (insideBoard(x, y)) {
             board[x][y] = boardCreator.getSpriteAtPosXY(x, y);
-            numericalWinBoard[x][y] = 1;
+            TilesAlreadyClickedBoard[x][y] = 1;
         }
         repaint();
     }
@@ -121,46 +121,46 @@ public class gamePanel extends JPanel {
 
                 if (insideBoard(x-1,y) && numericalBoard[x-1][y] > 0 && numericalBoard[x-1][y] < 9) {
                     revealSprite(x-1,y);
-                    numericalWinBoard[x-1][y] = 1;
+                    TilesAlreadyClickedBoard[x-1][y] = 1;
                     if (insideBoard(x-1,y+1)){
                         if (numericalBoard[x-1][y+1] > 0 && numericalBoard[x-1][y+1] < 9) {
                             revealSprite(x - 1, y+1);
-                            numericalWinBoard[x-1][y+1] = 1;
+                            TilesAlreadyClickedBoard[x-1][y+1] = 1;
                         }
                     }
                     if (insideBoard(x-1,y-1)){
                         if (numericalBoard[x-1][y-1] > 0 && numericalBoard[x-1][y-1] < 9) {
                             revealSprite(x - 1, y-1);
-                            numericalWinBoard[x-1][y-1] = 1;
+                            TilesAlreadyClickedBoard[x-1][y-1] = 1;
                         }
                     }
                 }
                 if (insideBoard(x+1,y) && numericalBoard[x+1][y] > 0 && numericalBoard[x+1][y] < 9) {
                     revealSprite(x+1,y);
-                    numericalWinBoard[x+1][y] = 1;
+                    TilesAlreadyClickedBoard[x+1][y] = 1;
                     if (insideBoard(x+1,y+1)){
                         if (numericalBoard[x+1][y+1] > 0 && numericalBoard[x+1][y+1] < 9) {
                             revealSprite(x + 1, y+1);
-                            numericalWinBoard[x+1][y+1] = 1;
+                            TilesAlreadyClickedBoard[x+1][y+1] = 1;
                         }
                     }
                     if (insideBoard(x+1,y-1)){
                         if (numericalBoard[x+1][y-1] > 0 && numericalBoard[x+1][y-1] < 9) {
                             revealSprite(x + 1, y-1);
-                            numericalWinBoard[x+1][y-1] = 1;
+                            TilesAlreadyClickedBoard[x+1][y-1] = 1;
                         }
                     }
                 }
                 if (insideBoard(x,y+1) && numericalBoard[x][y+1] > 0 && numericalBoard[x][y+1] < 9) {
                     revealSprite(x,y+1);
-                    numericalWinBoard[x][y+1] = 1;
+                    TilesAlreadyClickedBoard[x][y+1] = 1;
                 }
                 if (insideBoard(x,y-1)  && numericalBoard[x][y-1] > 0 && numericalBoard[x][y-1] < 9) {
                     revealSprite(x,y-1);
-                    numericalWinBoard[x][y-1] = 1;
+                    TilesAlreadyClickedBoard[x][y-1] = 1;
                 }
                 board[x][y] = sprites[0];
-                numericalWinBoard[x][y] = 1;
+                TilesAlreadyClickedBoard[x][y] = 1;
                 clearCells(x - 1, y);
                 clearCells(x + 1, y);
                 clearCells(x, y - 1);
@@ -232,7 +232,7 @@ public class gamePanel extends JPanel {
 
         for (int x= 0; x < getWidth() / 20; x++) {                              //This is a really stupid way of creating a win condition
             for (int y = 0; y < getHeight() / 20; y++) {                        //But it's the only method I could get to work reliably
-                if (numericalWinBoard[x][y] == 1){
+                if (TilesAlreadyClickedBoard[x][y] == 1){
                     tilesClicked++;
                 }
             }

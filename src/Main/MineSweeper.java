@@ -36,9 +36,8 @@ public class MineSweeper implements Runnable{       //Re.1
 
     public void run() {
         int FPSlimit = 100;
-        long lastCheck = System.currentTimeMillis(), lastFrame = System.nanoTime(),
-                timePerFrame = 1000000000; //Re.2
-        double frame = 1000000000.0 / FPSlimit, now;
+        long lastFrame = System.nanoTime(), timePerFrame = 1000000000; //Re.2
+        double now;
 
         while (true) {
             now = System.nanoTime();
@@ -50,6 +49,8 @@ public class MineSweeper implements Runnable{       //Re.1
                     barPanel.repaint();
                 }
             }
+            if ()
+
         }
     }
 
