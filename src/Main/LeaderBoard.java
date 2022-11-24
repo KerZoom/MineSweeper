@@ -5,11 +5,15 @@ import java.awt.*;
 import java.io.*;
 import java.util.ArrayList;
 
+/** This class creates and displays the leaderboard on the main menu
+ * the names are retrieved using the FileReader object from a .txt file and stored in an ArrayList*/
+
 public class LeaderBoard extends JPanel {
 
     public JPanel panel = new JPanel();
     private ArrayList<PlayerData> leaderBoardData;
     private final JTextArea textArea;
+    private FileReader fileReader;
     public LeaderBoard(){
 
         Dimension size = new Dimension(250, 200);
@@ -22,19 +26,16 @@ public class LeaderBoard extends JPanel {
         textArea.setEditable(false);
         textArea.setFont(new Font("Monospaced",Font.PLAIN,12));
 
-        loadFile();
+        fileReader = new FileReader();
+        leaderBoardData = fileReader.loadFile();
         printScores();
         panel.add(textArea);
         add(panel);
     }
-    public void loadFile() {
-        try {
-            FileInputStream fileInputStream = new FileInputStream("leaderBoardData.txt");
-            ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
-            leaderBoardData = (ArrayList<PlayerData>) objectInputStream.readObject();
-            objectInputStream.close();
-        }catch (IOException | ClassNotFoundException ignored){}
-    }
+
+    /** This method gets objects stored in the arrayList and displays them in a textarea,
+     * this text area is contained in the above JPanel
+     * The scores are also sorted from lowest to highest*/
     public void printScores(){
         String topString = "Name ..................... Score\n";
         PlayerData tempPlayer;

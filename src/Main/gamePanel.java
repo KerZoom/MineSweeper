@@ -19,6 +19,7 @@ public class gamePanel extends JPanel {
     private boardCreator boardCreator;
     private String name;
     private boolean mouseActive = true;
+    private FileReader fileReader;
 
     private ArrayList<PlayerData> leaderBoardData;
 
@@ -48,6 +49,7 @@ public class gamePanel extends JPanel {
 
         blankBoard();
 
+        fileReader = new FileReader();
     }
 
     public int getWidth() {
@@ -247,7 +249,7 @@ public class gamePanel extends JPanel {
                 if (name.length() < 10 && name.length() > 1){
                     validName = true;
                     PlayerData player = new PlayerData(barpanel.getTime(), name);
-                    playerDataFileSerialization(player);
+                    fileReader.addNewPlayer(player);
                 }
                 else{
                     JOptionPane.showMessageDialog(null,"Error: Name cannot be less than 1 character and greater than 10","Error", JOptionPane.ERROR_MESSAGE);
@@ -256,31 +258,5 @@ public class gamePanel extends JPanel {
 
         }
     }
-    public void playerDataFileSerialization(PlayerData player){
-        File dataFile;
-        try {
-            FileInputStream fileInputStream = new FileInputStream("leaderBoardData.txt");
-            ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
-            leaderBoardData = (ArrayList<PlayerData>) objectInputStream.readObject();
-            objectInputStream.close();
-        }catch (IOException | ClassNotFoundException e){
-            dataFile = new File("leaderBoardData.txt");
-            try {
-                dataFile.createNewFile();
-                System.out.print("New LeaderBoardData File created");
-                leaderBoardData = new ArrayList<>();
-            }catch(IOException ignored){}
-        }
-
-        try{
-            FileOutputStream fileOutputStream = new FileOutputStream("leaderBoardData.txt");
-            ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
-            leaderBoardData.add(player);
-            objectOutputStream.writeObject(leaderBoardData);
-            objectOutputStream.flush();
-            objectOutputStream.close();
-        }catch(IOException ignored){
-        }
-
-    }
 }
+
