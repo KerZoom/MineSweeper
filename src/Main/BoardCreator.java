@@ -8,7 +8,7 @@ import java.io.InputStream;
 /** This class is responsible for creating a board with a pre-determined quantity of mines
  * then determining how many mines surround each cell*/
 
-public class boardCreator {
+public class BoardCreator {
 
     private int width, height, difficulty, totalMineCount = 0;
     private BufferedImage img;
@@ -16,7 +16,7 @@ public class boardCreator {
     private int[] temporaryArray;
     private int[][] numericalBoardPositions;
 
-    public boardCreator(int width, int height, int difficulty, int x, int y) {
+    public BoardCreator(int width, int height, int difficulty, int x, int y) {
 
         this.width = width;
         this.height = height;

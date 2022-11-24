@@ -4,13 +4,13 @@ import javax.swing.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-public class mouseInput implements MouseListener {
+public class MouseInput implements MouseListener {
 
-    private final gamePanel content;
+    private final CoreGameMechanics content;
     private boolean gameStart = true;
-    private final barPanel barpanel;
+    private final BarPanel barpanel;
 
-    public mouseInput(gamePanel content, barPanel barpanel){
+    public MouseInput(CoreGameMechanics content, BarPanel barpanel){
         this.content = content;
         this.barpanel = barpanel;
     }

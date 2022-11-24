@@ -5,9 +5,9 @@ import java.awt.*;
 
 /** This is just a jpanel, nothing else*/
 
-public class gameContainer extends JPanel {
+public class GameContainer extends JPanel {
 
-    public gameContainer(int width, int height){
+    public GameContainer(int width, int height){
 
         Dimension size = new Dimension(width,height);
         setMinimumSize(size);

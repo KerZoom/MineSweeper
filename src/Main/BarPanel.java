@@ -12,7 +12,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class barPanel extends JPanel{
+public class BarPanel extends JPanel{
 
     private int flags = 0, width, height, time = 0;
     private final BufferedImage[] numberSprites;                /** Number sprites are used for the timer*/
@@ -21,7 +21,7 @@ public class barPanel extends JPanel{
     private BufferedImage img;
     private boolean counting = false;                           /** By default, the timer is disabled*/
 
-    public barPanel(int width, int height, int difficulty) {
+    public BarPanel(int width, int height, int difficulty) {
         Dimension size = new Dimension(width, height+5);
         numberSprites = new BufferedImage[11];
         faceSprites = new BufferedImage[5];

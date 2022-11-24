@@ -5,9 +5,9 @@ package Main;
 public class MineSweeper implements Runnable{       //Re.1
 
     private final GameWindow gameWindow;
-    private final gameContainer gameContainer;
-    private final barPanel barPanel;
-    private final gamePanel gamePanel;
+    private final GameContainer gameContainer;
+    private final BarPanel barPanel;
+    private final CoreGameMechanics CoreGameMechanics;
     private Thread gameThread; //Re.1
     private final int width;
     private final int height;
@@ -20,10 +20,10 @@ public class MineSweeper implements Runnable{       //Re.1
         this.difficulty = difficulty;
 
 
-        gameContainer = new gameContainer(width+20, height+20);       // Size of window needs to be modifiable to allow multiple difficulty modes
-        barPanel = new barPanel(width+20, 40, difficulty);
-        gamePanel = new gamePanel(getWidth(), getHeight(), getDifficulty(), barPanel);
-        gameContainer.add(gamePanel);
+        gameContainer = new GameContainer(width+20, height+20);       // Size of window needs to be modifiable to allow multiple difficulty modes
+        barPanel = new BarPanel(width+20, 40, difficulty);
+        CoreGameMechanics = new CoreGameMechanics(getWidth(), getHeight(), getDifficulty(), barPanel);
+        gameContainer.add(CoreGameMechanics);
         gameWindow = new GameWindow( barPanel, gameContainer);
 
         startLoop();
@@ -63,7 +63,7 @@ public class MineSweeper implements Runnable{       //Re.1
         return this.difficulty;
     }
     public String name(){
-        return gamePanel.getName();
+        return CoreGameMechanics.getName();
     }
     public int time(){
         return barPanel.getTime();

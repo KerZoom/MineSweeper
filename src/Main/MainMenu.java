@@ -5,14 +5,14 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class mainMenu {
+public class MainMenu {
     private int width;
     private int height;
     private int difficulty;
     private final JFrame frame;
     private final LeaderBoard leaderBoard;
 
-    public mainMenu(){
+    public MainMenu(){
         frame = new JFrame();
         frame.setDefaultCloseOperation(frame.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);

@@ -7,7 +7,7 @@ import javax.swing.*;
 public class GameWindow {
     private final JFrame jframe;
 
-    public GameWindow(barPanel barPanel, gameContainer gameContainer){
+    public GameWindow(BarPanel barPanel, GameContainer gameContainer){
         jframe = new JFrame();
         jframe.setDefaultCloseOperation(jframe.EXIT_ON_CLOSE);
         jframe.setLayout(new BoxLayout(jframe.getContentPane(),BoxLayout.Y_AXIS));

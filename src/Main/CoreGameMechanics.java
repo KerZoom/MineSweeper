@@ -5,9 +5,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
-import java.util.ArrayList;
 
-public class gamePanel extends JPanel {
+/** This class is the metaphorical bread and butter of the entire game
+ * It handles core game mechanics such as clearing tiles, flagging tiles
+ * clearing adjacent tiles and win/lose conditions*/
+
+public class CoreGameMechanics extends JPanel {
 
     int width, height, difficulty;
     private BufferedImage img;
@@ -15,15 +18,13 @@ public class gamePanel extends JPanel {
     private final int[][] TilesAlreadyClickedBoard;
     private final BufferedImage[] sprites;
     private final BufferedImage[][] board;
-    private final barPanel barpanel;
-    private boardCreator boardCreator;
+    private final BarPanel barpanel;
+    private BoardCreator boardCreator;
     private String name;
     private boolean mouseActive = true;
     private FileReader fileReader;
 
-    private ArrayList<PlayerData> leaderBoardData;
-
-    public gamePanel(int width, int height, int difficulty, barPanel barpanel) {
+    public CoreGameMechanics(int width, int height, int difficulty, BarPanel barpanel) {
 
         this.width = width;
         this.height = height;
@@ -36,7 +37,7 @@ public class gamePanel extends JPanel {
         TilesAlreadyClickedBoard = new int[getWidth() / 20][getHeight() /  20];
         numericalBoard = new int[getWidth() / 20][getHeight() / 20];
 
-        mouseInput input = new mouseInput(this, barpanel);
+        MouseInput input = new MouseInput(this, barpanel);
         addMouseListener(input);
 
         Dimension size = new Dimension(width, height);
@@ -63,7 +64,7 @@ public class gamePanel extends JPanel {
     }
 
     public void startGame(int x, int y){
-        boardCreator = new boardCreator(getWidth() / 20, getHeight() / 20, getDifficulty(), x, y);
+        boardCreator = new BoardCreator(getWidth() / 20, getHeight() / 20, getDifficulty(), x, y);
         barpanel.setFlags(boardCreator.returnTotalMineCount());
         barpanel.setFace(0);
         resetNumericalBoards();
