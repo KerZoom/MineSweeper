@@ -1,8 +1,10 @@
 package Main;
 
-// References are at the bottom of the file and are indexed by code E.g. Re.1
+/**This is the Minesweeper class, it's essentially a driver class and creates instances of
+  the other classes, it also implements "Runnable" which allows the game to run in real time
+  on a thread*/
 
-public class MineSweeper implements Runnable{       //Re.1
+public class MineSweeper implements Runnable{
 
     private final GameWindow gameWindow;
     private final GameContainer gameContainer;
@@ -13,7 +15,6 @@ public class MineSweeper implements Runnable{       //Re.1
     private final int height;
     public int difficulty;
 
-    //No argument constructor
     public MineSweeper(int width, int height, int difficulty) {
         this.width = width;
         this.height = height;
@@ -29,20 +30,21 @@ public class MineSweeper implements Runnable{       //Re.1
         startLoop();
     }
 
+    /**This creates a new thread for the game to run on and assigns it this class */
     private void startLoop(){
         gameThread = new Thread(this);
         gameThread.start();
     }
 
+    /**This is the actual run function, it controls the frame rate of the game and
+     * increments the clock accordingly*/
     public void run() {
-        int FPSlimit = 100;
         long lastFrame = System.nanoTime(), timePerFrame = 1000000000; //Re.2
         double now;
 
         while (true) {
             now = System.nanoTime();
-            if (now - lastFrame >= timePerFrame) {  //Finished FPS control, actually works now
-                                                    //Repaints the JFrame every frame
+            if (now - lastFrame >= timePerFrame) {
                 lastFrame = System.nanoTime();
                 if (barPanel.isCounting()) {
                     barPanel.incrementTime();
@@ -61,12 +63,6 @@ public class MineSweeper implements Runnable{       //Re.1
     }
     private int getDifficulty() {
         return this.difficulty;
-    }
-    public String name(){
-        return CoreGameMechanics.getName();
-    }
-    public int time(){
-        return barPanel.getTime();
     }
 }
 

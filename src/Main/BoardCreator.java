@@ -1,20 +1,17 @@
 package Main;
 
-import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.io.InputStream;
 
 /** This class is responsible for creating a board with a pre-determined quantity of mines
  * then determining how many mines surround each cell*/
 
 public class BoardCreator {
 
-    private int width, height, difficulty, totalMineCount = 0;
-    private BufferedImage img;
+    private int width, height, difficulty;
     private final BufferedImage[] tileSprites;
     private int[] temporaryArray;
     private int[][] numericalBoardPositions;
+    private SpritesImporter importer;
 
     public BoardCreator(int width, int height, int difficulty, int x, int y) {
 
@@ -25,22 +22,15 @@ public class BoardCreator {
         tileSprites = new BufferedImage[16];
         numericalBoardPositions = new int[width][height];
 
-        importTileSprites();
-        temporaryArray = generateMineLocations(x,y);
-        arrayTransfer(temporaryArray, numericalBoardPositions, width, height);
-        generateNumbers(numericalBoardPositions,width,height);
-    }
-
-    private void importTileSprites() {
-        try {
-            InputStream stream = getClass().getResourceAsStream("/tiles.png");
-            img = ImageIO.read(stream);
-        } catch (IOException e) {
-            System.out.println("Error: File not found - tiles.png");
-        }
+        importer = new SpritesImporter();
+        BufferedImage img = importer.importSpriteSheet("/tiles.png");
         for (int i = 0; i < tileSprites.length; i++) {
             tileSprites[i] = img.getSubimage(i * 16, 0, 16, 16);
         }
+
+        temporaryArray = generateMineLocations(x,y);
+        arrayTransfer(temporaryArray, numericalBoardPositions, width, height);
+        generateNumbers(numericalBoardPositions,width,height);
     }
 
     /**
@@ -53,9 +43,10 @@ public class BoardCreator {
      *  is calculated using the rounded XY coordinates obtained from mouseInput, the same check that ensures
      *  a mine is not placed on top of another mine also checks it isn't the same index as firstTurnIndex.
     */
+
+    // Originally I used a shuffle for this and in hindsight I probably should have just used that
     public int[] generateMineLocations(int x, int y) {
         int firstTurnIndex;
-
         firstTurnIndex = (y * width + x + 1);
         int[] temporaryArray = new int[width * height];
         for (int i = 0; i < this.difficulty; i++) {
@@ -86,14 +77,16 @@ public class BoardCreator {
     }
 
     /** This method generates the numbers for each cell by counting in a clockwise pattern
-     * how many mines surround a cell, the maximum is 9
+     * how many mines surround a cell, the maximum is 9, it then sets the origin cell the number of
+     * mines counted
      *
      * If you encounter a bug where a mine appears under your cursor at the start of the game,
-     * this method is to blame.
+     * blame this method.
      * Fixing it would have required at least a week of play testing to narrow down exactly which specific
-     * pattern of mines and XY coordinates is causing it to somehow count to 13*/
+     * pattern of mines and XY coordinates is causing it to somehow count to exactly 13*/
+
     public void generateNumbers(int[][] array, int width, int height){
-    int mineCount = 0;
+    int mineCount;
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
                 mineCount = 0;

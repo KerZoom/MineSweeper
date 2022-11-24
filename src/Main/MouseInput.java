@@ -4,6 +4,16 @@ import javax.swing.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+/**This class controls all the mouse input for the game, the reason
+   i used mouseReleased instead of mouseClicked is to allow the player to
+   move the cursor if they accidentally clicked the wrong tile but haven't
+   released it yet you can move the cursor to the correct tile
+
+   roundX and roundY take the cursor coordinates and divide them by 2 and multiply them by 0.1
+   to get a single digit that's a whole number
+
+ * Example: X(220.8) Y(55.7) = X(22) Y(5), these coordinates are use as a 2d array index multiple times*/
+
 public class MouseInput implements MouseListener {
 
     private final CoreGameMechanics content;
@@ -31,26 +41,23 @@ public class MouseInput implements MouseListener {
                         content.revealSprite(roundX, roundY);
                         content.loseCondition(roundX, roundY);
                         content.winCondition();
-                        content.clearCells(roundX, roundY);
+                        content.clearAdjacentCells(roundX, roundY);
                     } else if (SwingUtilities.isRightMouseButton(e)) {
                         content.flagTile(roundX, roundY);
                         content.winCondition();
                     }
                 }
             } else {
-                content.startGame(roundX, roundY);
+                content.resetGame(roundX, roundY);
                 gameStart = false;
                 content.revealSprite(roundX, roundY);
-                content.clearCells(roundX, roundY);
+                content.clearAdjacentCells(roundX, roundY);
                 barpanel.startCounting();
             }
         }
     }
     public void mouseEntered(MouseEvent e) {
-
     }
-
     public void mouseExited(MouseEvent e) {
-
     }
 }

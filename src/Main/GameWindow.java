@@ -4,6 +4,7 @@ package Main;
 
 import javax.swing.*;
 
+/** This is just a Jframe that contains the gamePanel*/
 public class GameWindow {
     private final JFrame jframe;
 

@@ -47,3 +47,8 @@ public class FileReader {
         }
     }
 }
+
+/*
+https://www.geeksforgeeks.org/serialization-in-java/
+Labsheets 15 and 16
+ */
