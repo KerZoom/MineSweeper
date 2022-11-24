@@ -246,13 +246,13 @@ public class gamePanel extends JPanel {
                 name = JOptionPane.showInputDialog("Enter a name");
                 if (name.length() < 10 && name.length() > 1){
                     validName = true;
+                    PlayerData player = new PlayerData(barpanel.getTime(), name);
+                    playerDataFileSerialization(player);
                 }
                 else{
                     JOptionPane.showMessageDialog(null,"Error: Name cannot be less than 1 character and greater than 10","Error", JOptionPane.ERROR_MESSAGE);
                 }
             }while(!validName);
-            PlayerData player = new PlayerData(barpanel.getTime(), name);
-            playerDataFileSerialization(player);
 
         }
     }

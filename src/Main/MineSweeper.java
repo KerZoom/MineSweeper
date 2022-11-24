@@ -49,7 +49,6 @@ public class MineSweeper implements Runnable{       //Re.1
                     barPanel.repaint();
                 }
             }
-            if ()
 
         }
     }

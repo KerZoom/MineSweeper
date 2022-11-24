@@ -41,7 +41,6 @@ public class boardCreator {
         int mineCount, indexNum;
 
         indexNum = (y*width + x+1);
-        System.out.print(indexNum + " ");
         int[] temporaryArray = new int[width*height];
         for (int i=0;i < this.difficulty;i++){
             boolean valid = false;

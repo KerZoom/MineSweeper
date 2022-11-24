@@ -36,7 +36,7 @@ public class LeaderBoard extends JPanel {
         }catch (IOException | ClassNotFoundException ignored){}
     }
     public void printScores(){
-        String tempString = "Name ..................... Score\n";
+        String topString = "Name ..................... Score\n";
         PlayerData tempPlayer;
 
         for (int i=0;i<leaderBoardData.size()-1;i++){
@@ -57,13 +57,8 @@ public class LeaderBoard extends JPanel {
             for (int e=0;e<30-(data.getName().length()+Integer.toString(data.getTime()).length());e++){
                 dots += ".";
             }
-            tempString += data.getName() + " " + dots + " " + data.getTime() + "\n";
+            topString += data.getName() + " " + dots + " " + data.getTime() + "\n";
         }
-        for (PlayerData data: leaderBoardData){
-            System.out.println(data.getName());
-            System.out.println((data.getTime()));
-        }
-        System.out.println(tempString);
-        textArea.append(tempString);
+        textArea.append(topString);
     }
 }
