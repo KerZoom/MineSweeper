@@ -46,7 +46,7 @@ public class MainMenu {
         //These are default values, if you don't select anything in the combo box it will use these instead
         setHeight(300);
         setWidth(300);
-        setDifficulty(1);      // <-- Change this to 1 and don't select anything in the menu for an easy win
+        setDifficulty(25);      // <-- Change this to 1 and don't select anything in the menu for an easy win
 
         String[] sizes = {"15x15","25x25","40x40","80x40"};
         JComboBox<String> sizeSelect = new JComboBox<>(sizes);
