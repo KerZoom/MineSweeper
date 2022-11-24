@@ -274,13 +274,17 @@ public class CoreGameMechanics extends JPanel {
             boolean validName = false;
             do{
                 name = JOptionPane.showInputDialog("Enter a name");
-                if (name.length() < 10 && name.length() > 1){
-                    validName = true;
-                    PlayerData player = new PlayerData(barpanel.getTime(), name);
-                    fileReader.addNewPlayer(player);
+                if (name != null) {
+                    if (name.length() < 10 && name.length() > 1) {
+                        validName = true;
+                        PlayerData player = new PlayerData(barpanel.getTime(), name);
+                        fileReader.addNewPlayer(player);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Error: Name cannot be less than 1 character and greater than 10", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
                 }
                 else{
-                    JOptionPane.showMessageDialog(null,"Error: Name cannot be less than 1 character and greater than 10","Error", JOptionPane.ERROR_MESSAGE);
+                    validName = true;
                 }
             }while(!validName);
         }
