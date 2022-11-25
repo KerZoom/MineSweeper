@@ -54,7 +54,6 @@ public class BoardCreator {
             while (!valid) {
                 int tempnum = (int) (Math.random() * width * height);
                 if (temporaryArray[tempnum] != 13 && tempnum != firstTurnIndex) {
-                    System.out.print(tempnum + " ");
                     temporaryArray[tempnum] = 13;
                     valid = true;
                 }

@@ -20,11 +20,24 @@ public class BarPanel extends JPanel{
     private BufferedImage face;
     private BufferedImage img;
     private boolean counting = false;                           /** By default, the timer is disabled*/
+    private SpritesImporter importer;
 
     public BarPanel(int width, int height, int difficulty) {
         Dimension size = new Dimension(width, height+5);
+        importer = new SpritesImporter();
+
+        img = importer.importSpriteSheet("/numbers.png");
         numberSprites = new BufferedImage[11];
+        for (int i = 0; i < numberSprites.length; i++) {
+            numberSprites[i] = img.getSubimage(i * 13, 0, 13, 23);
+        }
+
         faceSprites = new BufferedImage[5];
+        img = importer.importSpriteSheet("/faces.png");
+        for (int i = 0; i < faceSprites.length; i++) {
+            faceSprites[i] = img.getSubimage(i * 24, 0, 24, 24);
+        }
+
         setFace(0);
         setFlags(difficulty);
         this.width = width/20;
@@ -35,35 +48,7 @@ public class BarPanel extends JPanel{
         setMaximumSize(size);
         Color backgroundColour = new Color(192,192,192);
         setBackground(backgroundColour);
-        importTileSprites();
         repaint();
-    }
-
-    /** ImportTileSprites imports all the number and face sprites ahead of time and stores them
-     * in their corresponding arrays
-     *
-     * It does this using a for loop and multiplying i by the width of a sprite,
-     * for example 1*13 = 13 so 13 pixels from the left gives you the second sprite in the sprites file*/
-    private void importTileSprites() {
-        try {
-            InputStream stream = getClass().getResourceAsStream("/numbers.png"); //Re.1
-            img = ImageIO.read(stream);
-        } catch (IOException e) {
-            System.out.println("Error: File not found - numbers.png");
-        }
-        for (int i = 0; i < numberSprites.length; i++) {
-            numberSprites[i] = img.getSubimage(i * 13, 0, 13, 23);
-        }
-
-        try {
-            InputStream stream = getClass().getResourceAsStream("/faces.png"); //Re.1
-            img = ImageIO.read(stream);
-        } catch (IOException e) {
-            System.out.println("Error: File not found - faces.png");
-        }
-        for (int i = 0; i < faceSprites.length; i++) {
-            faceSprites[i] = img.getSubimage(i * 24, 0, 24, 24);
-        }
     }
 
     /** The flags counter is incremented up*/
